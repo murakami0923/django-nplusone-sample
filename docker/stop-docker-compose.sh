@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker-compose --compatibility down 
+docker compose --compatibility down 
