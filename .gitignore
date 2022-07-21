@@ -1,0 +1,9 @@
+volumes/mysql/mysql-data/
+!volumes/mysql/mysql-data/.gitkeep
+
+.vscode
+
+# **/migrations/[0-9]*.py
+
+app.tar.gz
+

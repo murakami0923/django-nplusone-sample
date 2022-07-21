@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+    <!--
+    table th,td {
+        border: 1px #808080 solid;
+    }
+    -->
+    </style>
+    <title>サンプル002</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>氏名</th>
+                <th>氏名（カナ）</th>
+                <th>性別</th>
+                <th>電話番号</th>
+                <th>携帯電話</th>
+                <th>メールアドレス</th>
+                <th>郵便番号</th>
+                <th>地方</th>
+                <th>都道府県</th>
+                <th>住所1</th>
+                <th>住所2</th>
+                <th>生年月日</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for person in person_list %}
+            <tr>
+                <td>{{ person.name }}</td>
+                <td>{{ person.name_kana }}</td>
+                <td>{{ person.sex__name }}</td>
+                <td>{{ person.telephone }}</td>
+                <td>{{ person.telephone_mobile }}</td>
+                <td>{{ person.mail_address }}</td>
+                <td>{{ person.zip_code }}</td>
+                <td>{{ person.prefecture__district__name }}</td>
+                <td>{{ person.prefecture__name }}</td>
+                <td>{{ person.address1 }}</td>
+                <td>{{ person.address2 }}</td>
+                <td>{{ person.birthday }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
