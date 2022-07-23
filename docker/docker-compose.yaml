@@ -9,33 +9,14 @@ networks:
                 - subnet: 192.168.50.0/24
 
 services:
-    # sleepscope-amazon2-lb-nginx:
-    #     image: sw-sleepscope-amazon2-lb-nginx:latest
-    #     container_name: sleepscope-amazon2-lb-nginx
-    #     hostname: sleepscope-amazon2-lb-nginx
-    #     restart: always
-    #     privileged: true  # systemctlを使う時に必要
-    #     networks:
-    #         aws-sleepscope-amazon2-dev-network:
-    #             ipv4_address: 192.168.50.101
-    #     ports:
-    #         - 443:443
-    #         - 9443:9443
-    #     volumes:
-    #         - ../../../volumes/sleepscope-lb-nginx/var-log:/var/log
-    #     deploy:
-    #         resources:
-    #             limits:
-    #                 memory: 128M
-
     # django-docker-mariadb:
-    django-docker-develop-mysql:
-        # image: mariadb:10.5
-        image: mysql:8.0
-        # container_name: django-docker-develop-mariadb
-        container_name: django-docker-develop-mysql
-        # hostname: django-docker-develop-mariadb
-        hostname: django-docker-develop-mysql
+    django-docker-nplus-sample-develop-mysql:
+        image: mariadb:10.5
+        # image: mysql:8.0
+        container_name: django-docker-nplus-sample-develop-mariadb
+        # container_name: django-docker-nplus-sample-develop-mysql
+        hostname: django-docker-nplus-sample-develop-mariadb
+        # hostname: django-docker-nplus-sample-develop-mysql
         environment:
             MYSQL_ROOT_PASSWORD: Sz7k8Z!b
             MYSQL_DATABASE: sample_app
@@ -54,10 +35,10 @@ services:
             - "3306:3306"
         # restart: always
 
-    django-docker-develop-app:
-        image: django-docker-develop-app:latest
-        container_name: django-docker-develop-app
-        hostname: django-docker-develop-app
+    django-docker-nplus-sample-develop-app:
+        image: django-docker-nplus-sample-develop-app:20220806
+        container_name: django-docker-nplus-sample-develop-app
+        hostname: django-docker-nplus-sample-develop-app
         restart: always
         privileged: true  # systemctlを使う時に必要
         # tty: true  # 常に起動しっぱなしにする 参考 : https://qiita.com/reflet/items/dd65f9ffef2a2fcfcf30
@@ -68,9 +49,9 @@ services:
             - 8001:8001
         
     django-docker-develop-lb-nginx:
-        image: django-docker-develop-lb-nginx:latest
-        container_name: django-docker-develop-lb-nginx
-        hostname: django-docker-develop-lb-nginx
+        image: django-docker-nplus-sample-develop-lb-nginx:20220806
+        container_name: django-nplus-sample-docker-develop-lb-nginx
+        hostname: django-docker-nplus-sample-develop-lb-nginx
         restart: always
         privileged: true  # systemctlを使う時に必要
         tty: true  # 常に起動しっぱなしにする 参考 : https://qiita.com/reflet/items/dd65f9ffef2a2fcfcf30
@@ -80,104 +61,3 @@ services:
         ports:
             - 80:80
             - 443:443
-
-    # sleepscope-amazon2-minio:
-    #     image: minio/minio
-    #     container_name: sleepscope-amazon2-minio
-    #     hostname: sleepscope-amazon-minio
-    #     restart: always
-    #     # privileged: true  # systemctlを使う時に必要
-    #     networks:
-    #         aws-sleepscope-amazon2-dev-network:
-    #             ipv4_address: 192.168.50.104
-    #     ports:
-    #         - 9000:9000
-    #     volumes:
-    #         - ../../../volumes/sleepscope-minio/data:/data
-    #     environment:
-    #         - MINIO_ACCESS_KEY=ABCDEFGHIJKLMN123456
-    #         - MINIO_SECRET_KEY=abcdefghijklmnopqrstuvwxyz12345678901234
-    #     command: server /data
-    #     deploy:
-    #         resources:
-    #             limits:
-    #                 memory: 256M
-
-    # sleepscope-amazon2-web001:
-    #     image: sw-sleepscope-amazon2-develop-web:latest
-    #     container_name: sleepscope-amazon2-web001
-    #     hostname: sleepscope-amazon2-web001
-    #     restart: always
-    #     privileged: true  # systemctlを使う時に必要
-    #     # tty: true  # 常に起動しっぱなしにする 参考 : https://qiita.com/reflet/items/dd65f9ffef2a2fcfcf30
-    #     networks:
-    #         aws-sleepscope-amazon2-dev-network:
-    #             ipv4_address: 192.168.50.111
-    #     ports:
-    #         - 30080:80
-    #         - 39000:9000
-    #     volumes:
-    #         - ../../../volumes/sleepscope-dev/swsys:/home/sleepwell/swsys
-    #         - ../../../volumes/sleepscope-web001/var-log:/var/log
-    #         - ../../../volumes/sleepscope-dev/data:/home/sleepwell/data
-    #         - ../../../volumes/sleepscope-web001/maintenance-sh:/home/sleepwell/maintenance-sh
-    #     environment:
-    #         - LANG=ja_JP.UTF-8
-    #     deploy:
-    #         resources:
-    #             limits:
-    #                 memory: 1024M
-
-    # sleepscope-amazon2-web002:
-    #     image: sw-sleepscope-amazon2-develop-web:latest
-    #     container_name: sleepscope-amazon2-web002
-    #     hostname: sleepscope-amazon2-web002
-    #     restart: always
-    #     privileged: true  # systemctlを使う時に必要
-    #     # tty: true  # 常に起動しっぱなしにする 参考 : https://qiita.com/reflet/items/dd65f9ffef2a2fcfcf30
-    #     networks:
-    #         aws-sleepscope-amazon2-dev-network:
-    #             ipv4_address: 192.168.50.112
-    #     ports:
-    #         - 31080:80
-    #     volumes:
-    #         - ../../../volumes/sleepscope-dev/swsys:/home/sleepwell/swsys
-    #         - ../../../volumes/sleepscope-web002/var-log:/var/log
-    #         - ../../../volumes/sleepscope-dev/data:/home/sleepwell/data
-    #     environment:
-    #         - LANG=ja_JP.UTF-8
-    
-    # sleepscope-amazon2-backend001:
-    #     image: sw-sleepscope-amazon2-develop-backend:latest
-    #     container_name: sleepscope-amazon2-backend001
-    #     hostname: sleepscope-amazon2-backend001
-    #     restart: always
-    #     # privileged: true
-    #     networks:
-    #         aws-sleepscope-amazon2-dev-network:
-    #             ipv4_address: 192.168.50.121
-    #     volumes:
-    #         - ../../../volumes/sleepscope-dev/swsys:/home/sleepwell/swsys
-    #         - ../../../volumes/common/sleepscope_analyzer:/home/sleepwell/sleepscope_analyzer
-    #         - ../../../volumes/sleepscope-dev/data:/home/sleepwell/data_mount
-    #         - ../../../volumes/sleepscope-backend001/data:/home/sleepwell/data
-    #     command:
-    #         - "/sbin/init"
-    #     environment:
-    #         - LANG=ja_JP.UTF-8
-
-    # sleepscope-amazon2-backend-host001:
-    #     image: sw-sleepscope-amazon2-develop-backend-host:latest
-    #     container_name: sleepscope-amazon2-backend-host001
-    #     hostname: sleepscope-amazon2-backend-host001
-    #     restart: always
-    #     privileged: true  # systemctlを使う時に必要
-    #     # tty: true  # 常に起動しっぱなしにする 参考 : https://qiita.com/reflet/items/dd65f9ffef2a2fcfcf30
-    #     networks:
-    #         aws-sleepscope-amazon2-dev-network:
-    #             ipv4_address: 192.168.50.91
-    #     volumes:
-    #         - ../../../volumes/sleepscope-dev/swsys:/home/sleepwell/swsys
-    #         # - ../../../volumes/sleepscope-backend-dev/data:/home/sleepwell/data
-    #     environment:
-    #         - LANG=ja_JP.UTF-8

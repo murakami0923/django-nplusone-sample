@@ -1,4 +1,5 @@
-FROM ubuntu:20.04
+# FROM ubuntu:20.04
+FROM python:3.9.9
 
 ARG ENV=develop
 
@@ -8,20 +9,20 @@ RUN adduser --gid 60000 --uid 60000 app_user
 
 RUN ls -la /home/app_user/
 
-# apt update, upgrade
+# # apt update, upgrade
 RUN apt update
-RUN apt upgrade -y
+# RUN apt upgrade -y
 
-# Pythonインストール用リポジトリを追加
-RUN apt install -y software-properties-common
-RUN add-apt-repository ppa:deadsnakes/ppa
+# # Pythonインストール用リポジトリを追加
+# RUN apt install -y software-properties-common
+# RUN add-apt-repository ppa:deadsnakes/ppa
 
-RUN apt update
+# RUN apt update
 
-# Python任意のバージョンインストール（ここでは3.9）
-RUN apt install -y python3.9 python3.9-venv python3.9-dev
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.9 10
-RUN update-alternatives --set python /usr/bin/python3.9
+# # Python任意のバージョンインストール（ここでは3.9）
+# RUN apt install -y python3.9 python3.9-venv python3.9-dev
+# RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.9 10
+# RUN update-alternatives --set python /usr/bin/python3.9
 
 # Python確認
 RUN which python
@@ -37,7 +38,9 @@ RUN cd ~/venv/python3.9/ \
 USER root
 
 # mysqlクライアント
-RUN apt install -y mysql-client
+# RUN apt install -y gcc libmariadb-dev
+# RUN apt install -y mysql-client
+RUN apt install -y default-mysql-client
 # pipでmysqlclientを使うときに必要
 RUN apt install -y build-essential
 RUN apt install -y libmariadb-dev
@@ -68,6 +71,7 @@ RUN cd /var/log/ \
 && chown app_user:app_user uwsgi
 
 # /var/run/uwsgiを自動的に作るよう設定
+RUN mkdir -p /etc/tmpfiles.d/
 RUN cd /etc/tmpfiles.d/ \
 && echo "d /var/run/uwsgi 0755 app_user app_user" >> uwsgi.conf
 
@@ -80,11 +84,11 @@ COPY uwsgi/app_uwsgi.ini /etc/uwsgi/vassals/
 # 【注意】本番と開発で別ファイルで定義しているので、コピー元のファイルを間違えないように！
 COPY ${ENV}/django_app_module /etc/sysconfig/
 
-# uWSGIサービス起動スクリプト設置
-COPY uwsgi/uwsgi.service /etc/systemd/system/
+# # uWSGIサービス起動スクリプト設置
+# COPY uwsgi/uwsgi.service /etc/systemd/system/
 
-# uWSGIの自動起動設定
-RUN systemctl enable uwsgi
+# # uWSGIの自動起動設定
+# RUN systemctl enable uwsgi
 
 # アプリケーションインストールスクリプト
 COPY ${ENV}/app-install.sh /home/app_user/
@@ -107,5 +111,7 @@ RUN cd ~/app/ \
     && /bin/bash ~/app-install.sh
 
 USER root
+
+RUN apt upgrade -y
 
 ENTRYPOINT [ "/sbin/init" ]

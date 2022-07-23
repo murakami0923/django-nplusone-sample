@@ -31,7 +31,7 @@ function docker_build() {
 
     echo "env_name : ${env_name}"
 
-    IMG_BASE=django-docker
+    IMG_BASE=django-docker-nplus-sample
     current_dir=`pwd`/
 
     # ================================================================================
