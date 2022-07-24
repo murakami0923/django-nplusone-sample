@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ./env.sh
+
 function usage() {
   cat <<EOM
 Usage: $(basename "$0") [OPTION]...
@@ -59,7 +61,14 @@ function docker_build() {
     cd ${current_dir}/${dir}/
     
     echo docker build ${IMG}:${1}
-    docker build ${opt} -t ${IMG}:${1} .
+    docker build \
+        ${opt} \
+        --build-arg ENV_APP_GID=${ENV_APP_GID}\
+        --build-arg ENB_GNAME=${ENB_GNAME} \
+        --build-arg ENV_APP_UID=${ENV_APP_UID} \
+        --build-arg ENV_APP_UNAME=${ENV_APP_UNAME} \
+        -t ${IMG}:${1}\
+        .
 
     if [ ${1} != "latest" ]; then
         echo "tagに「latest」以外のものが指定されたので、latestにタグ付けします。"
