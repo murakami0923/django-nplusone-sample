@@ -45,6 +45,8 @@ services:
         networks:
             django-docker-network:
                 ipv4_address: 192.168.50.201
+        volumes:
+            ../app:/home/app_user/app
         ports:
             - 8001:8001
         
