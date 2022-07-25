@@ -41,15 +41,10 @@ function docker_build() {
     # ================================================================================
     dir=lb-nginx
     IMG=${IMG_BASE}-${env_name}-${dir}
-    cd ${current_dir}/${dir}/
+    cd ${current_dir}/docker/${dir}/
     
     echo docker build ${IMG}:${1}
     docker build ${opt} -t ${IMG}:${1} .
-
-    if [ ${1} != "latest" ]; then
-        echo "tagに「latest」以外のものが指定されたので、latestにタグ付けします。"
-        docker tag ${IMG}:${1} ${IMG}:latest
-    fi
 
     cd ${current_dir}/
 
@@ -58,8 +53,11 @@ function docker_build() {
     # ================================================================================
     dir=app
     IMG=${IMG_BASE}-${env_name}-${dir}
-    cd ${current_dir}/${dir}/
-    
+
+    /bin/cp -Ra ./app/requirements/ ./docker/${dir}/
+
+    cd ${current_dir}/docker/${dir}/
+
     echo docker build ${IMG}:${1}
     docker build \
         ${opt} \
@@ -71,16 +69,13 @@ function docker_build() {
         -t ${IMG}:${1}\
         .
 
-    if [ ${1} != "latest" ]; then
-        echo "tagに「latest」以外のものが指定されたので、latestにタグ付けします。"
-        docker tag ${IMG}:${1} ${IMG}:latest
-    fi
-
     cd ${current_dir}/
+
+    rm -Rf ${current_dir}/docker/${dir}/requirements/
 }
 
 # 引数別の処理定義
-tag="latest"
+tag="20220806"
 cache="yes"
 env="NO_ENV"
 

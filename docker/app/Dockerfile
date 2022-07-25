@@ -58,12 +58,13 @@ RUN mkdir -p /usr/local/app/
 RUN chown ${ENV_APP_UNAME}:${ENV_APP_GNAME} /usr/local/app/
 
 # アプリケーション用pip
-COPY ../app/requirements/ /tmp/requirements/
+COPY requirements /tmp/requirements
 
 WORKDIR /tmp/requirements/
 
-RUN pip instll --upgrade pip
-RUN pip install < local.txt
+RUN pip install --upgrade pip
+
+RUN pip install -r local.txt
 
 RUN apt upgrade -y
 
