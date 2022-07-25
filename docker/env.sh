@@ -1,5 +1,6 @@
 #!/bin/bash
 
+ENV=develop
 ENV_APP_GID=`id -g`
 ENV_APP_GNAME=`id -gn`
 ENV_APP_UID=`id -u`

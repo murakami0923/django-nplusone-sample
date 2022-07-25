@@ -63,8 +63,9 @@ function docker_build() {
     echo docker build ${IMG}:${1}
     docker build \
         ${opt} \
+        --build-arg ENV=${ENV}\
         --build-arg ENV_APP_GID=${ENV_APP_GID}\
-        --build-arg ENB_GNAME=${ENB_GNAME} \
+        --build-arg ENV_APP_GNAME=${ENV_APP_GNAME} \
         --build-arg ENV_APP_UID=${ENV_APP_UID} \
         --build-arg ENV_APP_UNAME=${ENV_APP_UNAME} \
         -t ${IMG}:${1}\
