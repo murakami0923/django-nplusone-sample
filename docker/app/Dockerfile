@@ -64,8 +64,13 @@ WORKDIR /tmp/requirements/
 
 RUN pip install --upgrade pip
 
+RUN pip install -r production.txt
 RUN pip install -r local.txt
 
 RUN apt upgrade -y
 
-ENTRYPOINT [ "/sbin/init" ]
+# entrypointのsh
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod a+x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]

@@ -11,7 +11,8 @@ SECRET_KEY = env(
     default="i3DJWxhKAs2qDQcjwDLIieHQFlU89gFhF5ZXwjqpOIv3d1mtbo7ssXjNDqpnRz7J",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+# ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+ALLOWED_HOSTS = ['*',]
 
 # CACHES
 # ------------------------------------------------------------------------------
@@ -25,7 +26,7 @@ CACHES = {
 
 # DATABASES
 # ------------------------------------------------------------------------------
-DATABASES ["default"]["HOST"] = '192.168.50.101'
+DATABASES ["default"]["HOST"] = 'django-docker-nplus-sample-develop-mariadb'
 
 # EMAIL
 # ------------------------------------------------------------------------------

@@ -9,8 +9,8 @@ networks:
                 - subnet: 192.168.50.0/24
 
 services:
-    # django-docker-mariadb:
-    django-docker-nplus-sample-develop-mysql:
+    django-docker-nplus-sample-develop-mariadb:
+    # django-docker-nplus-sample-develop-mysql:
         image: mariadb:10.5
         # image: mysql:8.0
         container_name: django-docker-nplus-sample-develop-mariadb
@@ -26,8 +26,8 @@ services:
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
         volumes:
             - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
-            - ../volumes/mysql/mysql-data:/var/lib/mysql
-            - ../volumes/mysql/db-script:/root/db-script
+            - ./volumes/mysql/mysql-data:/var/lib/mysql
+            - ./volumes/mysql/db-script:/root/db-script
         networks:
             django-docker-network:
                 ipv4_address: 192.168.50.101
@@ -39,27 +39,38 @@ services:
         image: django-docker-nplus-sample-develop-app:20220806
         container_name: django-docker-nplus-sample-develop-app
         hostname: django-docker-nplus-sample-develop-app
-        restart: always
-        privileged: true  # systemctlを使う時に必要
-        # tty: true  # 常に起動しっぱなしにする 参考 : https://qiita.com/reflet/items/dd65f9ffef2a2fcfcf30
+        # tty: true
+        # restart: always
+        # privileged: true  # systemctlを使う時に必要
+        tty: true  # 常に起動しっぱなしにする 参考 : https://qiita.com/reflet/items/dd65f9ffef2a2fcfcf30
+        depends_on:
+            - django-docker-nplus-sample-develop-mariadb
         networks:
             django-docker-network:
                 ipv4_address: 192.168.50.201
         volumes:
-            ../app:/usr/local/app
+            - ./app:/usr/local/app
+        environment:
+            DJANGO_SECRET_KEY: GT3MT5b9q2Vs2kMvtVFaLeiDNn7Fwyim
+            DJANGO_SETTINGS_MODULE: config.settings.local
+            DJANGO_ADMIN_URL: admin
+            ALLOWED_HOSTS: "*"
+            DB_HOST: django-docker-nplus-sample-develop-mariadb
+            DB_USER: app_user
+            DB_PASSWORD: AppUser123!
         ports:
             - 8001:8001
         
-    django-docker-develop-lb-nginx:
-        image: django-docker-nplus-sample-develop-lb-nginx:20220806
-        container_name: django-nplus-sample-docker-develop-lb-nginx
-        hostname: django-docker-nplus-sample-develop-lb-nginx
-        restart: always
-        privileged: true  # systemctlを使う時に必要
-        tty: true  # 常に起動しっぱなしにする 参考 : https://qiita.com/reflet/items/dd65f9ffef2a2fcfcf30
-        networks:
-            django-docker-network:
-                ipv4_address: 192.168.50.110
-        ports:
-            - 80:80
-            - 443:443
+    # django-docker-develop-lb-nginx:
+    #     image: django-docker-nplus-sample-develop-lb-nginx:20220806
+    #     container_name: django-nplus-sample-docker-develop-lb-nginx
+    #     hostname: django-docker-nplus-sample-develop-lb-nginx
+    #     # restart: always
+    #     # privileged: true  # systemctlを使う時に必要
+    #     tty: true  # 常に起動しっぱなしにする 参考 : https://qiita.com/reflet/items/dd65f9ffef2a2fcfcf30
+    #     networks:
+    #         django-docker-network:
+    #             ipv4_address: 192.168.50.110
+    #     ports:
+    #         - 80:80
+    #         - 443:443
