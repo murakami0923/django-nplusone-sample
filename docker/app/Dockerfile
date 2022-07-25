@@ -53,27 +53,17 @@ COPY uwsgi/app_uwsgi.ini /etc/uwsgi/vassals/
 # 【注意】本番と開発で別ファイルで定義しているので、コピー元のファイルを間違えないように！
 COPY ${ENV}/django_app_module /etc/sysconfig/
 
-# アプリケーションインストールスクリプト
-COPY ${ENV}/app-install.sh /home/${ENV_APP_UNAME}/
-RUN chown ${ENV_APP_UNAME}:${ENV_APP_GNAME} /home/${ENV_APP_UNAME}/app-install.sh
+# アプリケーションディレクトリ
+RUN mkdir -p /usr/local/app/
+RUN chown ${ENV_APP_UNAME}:${ENV_APP_GNAME} /usr/local/app/
 
-# アプリケーション
-COPY app.tar.gz /home/${ENV_APP_UNAME}/app.tar.gz
+# アプリケーション用pip
+COPY ../app/requirements/ /tmp/requirements/
 
-RUN cd /home/${ENV_APP_UNAME}/ \
-    chown ${ENV_APP_UNAME}:${ENV_APP_GNAME} app.tar.gz
+WORKDIR /tmp/requirements/
 
-USER ${ENV_APP_UNAME}
-
-RUN cd ~/ \
-    && tar zxf app.tar.gz
-
-RUN ls -l ~/venv/python3.9/django-docker-sample/bin/
-
-RUN cd ~/app/ \
-    && /bin/bash ~/app-install.sh
-
-USER root
+RUN pip instll --upgrade pip
+RUN pip install < local.txt
 
 RUN apt upgrade -y
 
