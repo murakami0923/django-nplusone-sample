@@ -1,11 +1,15 @@
 # FROM ubuntu:20.04
 FROM python:3.9.9
 
-ARG ENV=develop
+ARG ENV
+ARG ENV_APP_GID
+ARG ENV_APP_GNAME
+ARG ENV_APP_UID
+ARG ENV_APP_UNAME
 
 # アプリケーション実行用ユーザーを作成
 RUN addgroup --gid ${ENV_APP_GID} ${ENV_APP_GNAME}
-RUN adduser --gid ${ENV_APP_UID} --uid 60000 ${ENV_APP_UNAME}
+RUN adduser --gid ${ENV_APP_GID} --uid ${ENV_APP_UID} ${ENV_APP_UNAME}
 
 RUN ls -la /home/${ENV_APP_UNAME}/
 
@@ -32,15 +36,15 @@ RUN chmod a+x /root/db-app-user-password.sh
 # uWSGIのログ、プロセス用のディレクトリ作成、所有者変更
 RUN cd /var/log/ \
 && mkdir uwsgi \
-&& chown ${ENV_APP_UNAME}:${ENV_APP_UNAME} uwsgi \
+&& chown ${ENV_APP_UNAME}:${ENV_APP_GNAME} uwsgi \
 && cd /var/run/ \
 && mkdir uwsgi \
-&& chown ${ENV_APP_UNAME}:${ENV_APP_UNAME} uwsgi
+&& chown ${ENV_APP_UNAME}:${ENV_APP_GNAME} uwsgi
 
 # /var/run/uwsgiを自動的に作るよう設定
 RUN mkdir -p /etc/tmpfiles.d/
 RUN cd /etc/tmpfiles.d/ \
-&& echo "d /var/run/uwsgi 0755 ${ENV_APP_UNAME} ${ENV_APP_UNAME}" >> uwsgi.conf
+&& echo "d /var/run/uwsgi 0755 ${ENV_APP_GNAME} ${ENV_APP_UNAME}" >> uwsgi.conf
 
 # uWSGI Emperor mode設置
 COPY uwsgi/app_uwsgi.ini /etc/uwsgi/vassals/
@@ -51,13 +55,13 @@ COPY ${ENV}/django_app_module /etc/sysconfig/
 
 # アプリケーションインストールスクリプト
 COPY ${ENV}/app-install.sh /home/${ENV_APP_UNAME}/
-RUN chown ${ENV_APP_UNAME}:${ENV_APP_UNAME} /home/${ENV_APP_UNAME}/app-install.sh
+RUN chown ${ENV_APP_UNAME}:${ENV_APP_GNAME} /home/${ENV_APP_UNAME}/app-install.sh
 
 # アプリケーション
 COPY app.tar.gz /home/${ENV_APP_UNAME}/app.tar.gz
 
 RUN cd /home/${ENV_APP_UNAME}/ \
-    chown ${ENV_APP_UNAME}:${ENV_APP_UNAME} app.tar.gz
+    chown ${ENV_APP_UNAME}:${ENV_APP_GNAME} app.tar.gz
 
 USER ${ENV_APP_UNAME}
 
