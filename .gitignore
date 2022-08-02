@@ -1,5 +1,7 @@
 volumes/mysql/mysql-data/
+volumes/mysql/log/
 !volumes/mysql/mysql-data/.gitkeep
+!volumes/mysql/log/.gitkeep
 
 .vscode
 

@@ -28,6 +28,7 @@ services:
             - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
             - ./volumes/mysql/mysql-data:/var/lib/mysql
             - ./volumes/mysql/db-script:/root/db-script
+            - ./volumes/mysql/log:/var/log/mysql/
         networks:
             django-docker-network:
                 ipv4_address: 192.168.50.101
