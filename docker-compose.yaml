@@ -25,10 +25,11 @@ services:
             TZ: 'Asia/Tokyo'
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
         volumes:
-            - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+            # - ./docker/my.cnf:/etc/mysql/conf.d/my.cnf
+            - ./docker/mysql/70-app.cnf:/etc/mysql/mariadb.conf.d/70-app.cnf
             - ./volumes/mysql/mysql-data:/var/lib/mysql
             - ./volumes/mysql/db-script:/root/db-script
-            - ./volumes/mysql/log:/var/log/mysql/
+            - ./volumes/mysql/log:/var/log/mysql
         networks:
             django-docker-network:
                 ipv4_address: 192.168.50.101
