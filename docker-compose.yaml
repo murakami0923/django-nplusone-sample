@@ -50,6 +50,7 @@ services:
                 ipv4_address: 192.168.50.201
         volumes:
             - ./app:/usr/local/app
+            - ./volumes/dump:/tmp/dump
         environment:
             DJANGO_SECRET_KEY: GT3MT5b9q2Vs2kMvtVFaLeiDNn7Fwyim
             DJANGO_SETTINGS_MODULE: config.settings.local
@@ -58,6 +59,7 @@ services:
             DB_HOST: django-docker-nplus-sample-develop-mariadb
             DB_USER: app_user
             DB_PASSWORD: AppUser123!
+            DB_NAME: sample_app
         ports:
             - 8001:8001
         
