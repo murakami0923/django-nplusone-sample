@@ -10,13 +10,9 @@ networks:
 
 services:
     django-docker-nplus-sample-develop-mariadb:
-    # django-docker-nplus-sample-develop-mysql:
         image: mariadb:10.5
-        # image: mysql:8.0
         container_name: django-docker-nplus-sample-develop-mariadb
-        # container_name: django-docker-nplus-sample-develop-mysql
         hostname: django-docker-nplus-sample-develop-mariadb
-        # hostname: django-docker-nplus-sample-develop-mysql
         environment:
             MYSQL_ROOT_PASSWORD: Sz7k8Z!b
             MYSQL_DATABASE: sample_app
@@ -33,16 +29,12 @@ services:
                 ipv4_address: 192.168.50.101
         ports:
             - "3306:3306"
-        # restart: always
 
     django-docker-nplus-sample-develop-app:
         image: django-docker-nplus-sample-develop-app:20220806
         container_name: django-docker-nplus-sample-develop-app
         hostname: django-docker-nplus-sample-develop-app
-        # tty: true
-        # restart: always
-        # privileged: true  # systemctlを使う時に必要
-        tty: true  # 常に起動しっぱなしにする 参考 : https://qiita.com/reflet/items/dd65f9ffef2a2fcfcf30
+        tty: true
         depends_on:
             - django-docker-nplus-sample-develop-mariadb
         networks:
@@ -62,17 +54,3 @@ services:
             DB_NAME: sample_app
         ports:
             - 8001:8001
-        
-    # django-docker-develop-lb-nginx:
-    #     image: django-docker-nplus-sample-develop-lb-nginx:20220806
-    #     container_name: django-nplus-sample-docker-develop-lb-nginx
-    #     hostname: django-docker-nplus-sample-develop-lb-nginx
-    #     # restart: always
-    #     # privileged: true  # systemctlを使う時に必要
-    #     tty: true  # 常に起動しっぱなしにする 参考 : https://qiita.com/reflet/items/dd65f9ffef2a2fcfcf30
-    #     networks:
-    #         django-docker-network:
-    #             ipv4_address: 192.168.50.110
-    #     ports:
-    #         - 80:80
-    #         - 443:443
