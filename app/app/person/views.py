@@ -13,21 +13,25 @@ class PersonListView001(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # 全件
-        person_list: List[Person] = \
-            Person.objects.all()[:10]
+        # # 全件から先頭100件
+        # person_list: List[Person] = \
+        #     Person.objects.all()[:100]
 
-        # 大阪府だけ絞り込み
+        # # 都道府県に「京都」を含むだけ絞り込み（「東京都」と「京都府」がヒット）
+        # # -> 先頭100件
+        # person_list: List[Person] = \
+        #     Person.objects.filter(prefecture__name__contains = '京都')[:100]
+        # -> 1001行目～1100行目
         person_list: List[Person] = \
-            Person.objects.filter(prefecture__name = '大阪府')[:10]
+            Person.objects.filter(prefecture__name__contains = '京都')[1000:1100]
         
         # # 北海道だけ絞り込み
         # person_list: List[Person] = \
-        #     Person.objects.filter(prefecture__name = '北海道')[:10]
+        #     Person.objects.filter(prefecture__name = '北海道')[:100]
 
         # # 東京都だけ絞り込み
         # person_list: List[Person] = \
-        #     Person.objects.filter(prefecture__name = '東京都')[:10]
+        #     Person.objects.filter(prefecture__name = '東京都')[:100]
             
 
         context['person_list'] = person_list
@@ -65,33 +69,40 @@ class PersonListView002(TemplateView):
             'updated_at',
         ]
 
-        # # 全件
+        # # 全件から先頭100件
         # person_list: List[Person] = \
         #     Person.objects \
         #         .select_related(*select_related_tables) \
         #         .all() \
-        #         .values(*select_fields)[:10]
+        #         .values(*select_fields)[:100]
 
-        # 大阪府だけ絞り込み
+        # 都道府県に「京都」を含むだけ絞り込み（「東京都」と「京都府」がヒット）
+        # # -> 先頭100件
+        # person_list: List[Person] = \
+        #     Person.objects \
+        #         .select_related(*select_related_tables) \
+        #         .filter(prefecture__name__contains = '京都') \
+        #         .values(*select_fields)[:100]
+        # -> 1001行目～1100行目
         person_list: List[Person] = \
             Person.objects \
                 .select_related(*select_related_tables) \
-                .filter(prefecture__name = '大阪府') \
-                .values(*select_fields)[:10]
+                .filter(prefecture__name__contains = '京都') \
+                .values(*select_fields)[1000:1100]
         
         # # 北海道だけ絞り込み
         # person_list: List[Person] = \
         #     Person.objects \
         #         .select_related(*select_related_tables) \
         #         .filter(prefecture__name = '北海道') \
-        #         .values(*select_fields)[:10]
+        #         .values(*select_fields)[:100]
 
         # # 東京都だけ絞り込み
         # person_list: List[Person] = \
         #     Person.objects \
         #         .select_related(*select_related_tables) \
         #         .filter(prefecture__name = '東京都') \
-        #         .values(*select_fields)[:10]
+        #         .values(*select_fields)[:100]
             
 
         context['person_list'] = person_list
