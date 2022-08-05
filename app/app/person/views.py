@@ -18,12 +18,12 @@ class PersonListView001(TemplateView):
         #     Person.objects.all()[:100]
 
         # # 都道府県に「京都」を含むだけ絞り込み（「東京都」と「京都府」がヒット）
-        # # -> 先頭100件
-        # person_list: List[Person] = \
-        #     Person.objects.filter(prefecture__name__contains = '京都')[:100]
-        # -> 1001行目～1100行目
+        # -> 先頭10件
         person_list: List[Person] = \
-            Person.objects.filter(prefecture__name__contains = '京都')[1000:1100]
+            Person.objects.filter(prefecture__name__contains = '京都')[:10]
+        # # -> 1001行目～1100行目
+        # person_list: List[Person] = \
+        #     Person.objects.filter(prefecture__name__contains = '京都')[1000:1100]
         
         # # 北海道だけ絞り込み
         # person_list: List[Person] = \
@@ -77,18 +77,18 @@ class PersonListView002(TemplateView):
         #         .values(*select_fields)[:100]
 
         # 都道府県に「京都」を含むだけ絞り込み（「東京都」と「京都府」がヒット）
-        # # -> 先頭100件
-        # person_list: List[Person] = \
-        #     Person.objects \
-        #         .select_related(*select_related_tables) \
-        #         .filter(prefecture__name__contains = '京都') \
-        #         .values(*select_fields)[:100]
-        # -> 1001行目～1100行目
+        # -> 先頭10件
         person_list: List[Person] = \
             Person.objects \
                 .select_related(*select_related_tables) \
                 .filter(prefecture__name__contains = '京都') \
-                .values(*select_fields)[1000:1100]
+                .values(*select_fields)[:10]
+        # # -> 1001行目～1100行目
+        # person_list: List[Person] = \
+        #     Person.objects \
+        #         .select_related(*select_related_tables) \
+        #         .filter(prefecture__name__contains = '京都') \
+        #         .values(*select_fields)[1000:1100]
         
         # # 北海道だけ絞り込み
         # person_list: List[Person] = \
