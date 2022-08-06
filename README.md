@@ -53,7 +53,7 @@ Djangoアプリケーションは、[Cookiecutter](https://cookiecutter-django.r
 
 ## アプリケーションの設定について
 
-`app/config/settings`配下に設定ファイルを入れてあり、`develop.py`を使用します。
+`app/config/settings`配下に設定ファイルを入れてあり、`local.py`を使用します。
 
 ## アプリケーションの実装について
 
@@ -63,7 +63,7 @@ Djangoアプリケーションは、[Cookiecutter](https://cookiecutter-django.r
 app
   ├ config
   │  └ settings
-  │      └ develop.py ・・・ アプリケーションの設定ファイル
+  │      └ local.py ・・・ アプリケーションの設定ファイル
   └ app
      ├ master
      │  └ models.py ・・・地方、都道府県、性別のマスタの定義
