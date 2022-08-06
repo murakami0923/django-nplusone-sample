@@ -22,9 +22,9 @@
 
 # サンプルの前提条件
 
-サンプルを動かす際には、UNIX系OS(Linux等)にインストールしたDocker、Docker Compose (v2)が必要です。<br>※私はOracle VM VirtualBoxにUbuntu 20.04のゲストOSを作成し、Dockerをインストールして使用します。
+サンプルを動かす際には、LinuxにインストールしたDocker、Docker Compose (v2)が必要です。<br>※私はOracle VM VirtualBoxにUbuntu 22.04のゲストOSを作成し、Dockerをインストールして使用します。<br>Windowsの場合、WSL2でUbuntuをインストールしても使えるはずです。
 
-アプリケーションのコンテナで、アプリケーション実行ユーザーを、ホスト側のグループとユーザーで作成しています。
+アプリケーションのコンテナで、アプリケーション実行ユーザーを、ホスト側のグループとユーザーと同じもので作成し、ボリュームを参照するようにしています。
 
 
 # サンプルについて
