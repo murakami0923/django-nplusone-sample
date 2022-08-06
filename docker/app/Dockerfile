@@ -73,4 +73,8 @@ RUN apt upgrade -y
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod a+x /usr/local/bin/entrypoint.sh
 
+# init-dbのsh
+COPY init-db.sh /usr/local/bin/init-db.sh
+RUN chmod a+x /usr/local/bin/init-db.sh
+
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
