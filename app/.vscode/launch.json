@@ -17,7 +17,7 @@
                 "0.0.0.0:8002"
             ],
             "django": true,
-            "justMyCode": true
+            "justMyCode": false
         }
     ]
 }
