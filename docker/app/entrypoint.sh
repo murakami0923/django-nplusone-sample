@@ -14,7 +14,9 @@ echo "mysql connect ok."
 pwd=`pwd`
 
 cd /tmp/dump/
-MYSQL_PWD=${DB_PASSWORD}
+export MYSQL_PWD=${DB_PASSWORD}
+mysql -h ${DB_HOST} -u ${DB_USER} -e "drop database ${DB_NAME};"
+mysql -h ${DB_HOST} -u ${DB_USER} -e "create database ${DB_NAME};"
 mysql -h ${DB_HOST} -u ${DB_USER} ${DB_NAME} < ${DB_NAME}.dmp
 
 cd /usr/local/app/
